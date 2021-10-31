@@ -1,12 +1,15 @@
+package com.ty.model;
+
 import java.util.Objects;
 
-//自定义类
-public class Student {
+public class Student implements Comparable<Student>{//实现comparable接口
 
     private String name;
+    private int score;
 
-    public Student(String name){
+    public Student(String name,int score){
         this.name=name;
+        this.score=score;
     }
 
     @Override
@@ -22,10 +25,17 @@ public class Student {
         return Objects.hash(name);
     }
 
+
+    @Override
+    public int compareTo(Student o) {
+        return this.score-o.score; //当前元素小于other,则返回负数
+    }
+
     @Override
     public String toString() {
         return "Student{" +
                 "name='" + name + '\'' +
+                ", score=" + score +
                 '}';
     }
 }

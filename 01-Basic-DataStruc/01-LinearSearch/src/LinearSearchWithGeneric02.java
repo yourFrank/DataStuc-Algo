@@ -1,3 +1,4 @@
+import com.ty.model.Student;
 
 /*LinearSearch01中代码存在的问题: 我们只能对int类型进行查找，如果我们想查找多种类型？自定义类型？
 使用泛型解决。（jdk中的所有容器，map,list等都是泛型类）
@@ -27,7 +28,7 @@ public class LinearSearchWithGeneric02 {
                               new Student("Bobo"),
                               new Student("frank")};
         Student student = new Student("frank");
-        int res2 = LinearSearchWithGeneric02.search(students, student);
+        int res2 = LinearSearchWithGeneric02.search(students,student);
         System.out.println(res2);
     }
 }
