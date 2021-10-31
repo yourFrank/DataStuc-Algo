@@ -78,13 +78,13 @@ public class Array<E> {
         if (index < 0 || index > size)
             throw new IllegalArgumentException("Add failed. Require index >= 0 and index <= size.");
         E ret = data[index]; //保存要删除的元素
-        for (int i = index; i+1 < data.length; i++) {
+        for (int i = index; i+1 < size; i++) { //注意这里是小于size，因为数组一个size个元素，而不是小于length
             data[i] = data[i + 1];
         }
 
         size--;
         data[size] = null; // loitering objects != memory leak
-        if (size == data.length / 4) { //如果元素只有四分之一，则缩容
+        if (size == data.length / 4 && data.length / 2 != 0) { //如果元素只有四分之一则缩容（此时要考虑1/0等于0时，就不缩容了，0没有意义）
             resize(data.length / 2);
         }
         return ret;
@@ -131,9 +131,9 @@ public class Array<E> {
             throw new IllegalArgumentException("Add failed. Require index >= 0 and index <= size.");
         return data[index];
     }
-    private void resize(int len) {
-        E[] newData = (E[]) new Object[len]; //这里要注意，不能直接new泛型的数组，首先要new Object[]再转成泛型数组
-        for (int i = 0; i < data.length; i++) {
+    private void resize(int newCapacity) {
+        E[] newData = (E[]) new Object[newCapacity]; //这里要注意，不能直接new泛型的数组，首先要new Object[]再转成泛型数组
+        for (int i = 0; i < size; i++) { //注意这里循环是i<size
             newData[i] = data[i];
         }
         data = newData;

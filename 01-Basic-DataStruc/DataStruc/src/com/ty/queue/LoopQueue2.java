@@ -1,6 +1,6 @@
 package com.ty.queue;
 
-// 在这一版本的实现中，成我们完全不使用size，只使用front和tail来完LoopQueue的所有逻辑：）
+// 在这一版本的实现中，我们完全不使用size，只使用front和tail来完LoopQueue的所有逻辑：）
 public class LoopQueue2<E> implements Queue<E> {
 
     private E[] data;

@@ -2,6 +2,10 @@ package com.ty.queue;
 
 import com.ty.array.Array;
 
+/**
+ * 数组实现队列
+ * @param <E>
+ */
 public class ArrayQueue<E> implements Queue<E> {
 
     private Array<E> array;
