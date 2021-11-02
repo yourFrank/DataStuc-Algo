@@ -10,7 +10,7 @@ package com.ty.LinkedList;
  *      然而当前这种链表只有头节点，不适合作为队列，因为每次都要找链表尾部链接，入队的操作都是O(n)
  * @param <E>
  */
-public class LinkedList2<E> {
+public class LinkedList2<E>  {
 
     private class Node{   //设定为内部类，只有在当前类使用这个node类
         public E e;
@@ -37,7 +37,7 @@ public class LinkedList2<E> {
 
 //    private Node head;  //头节点
     private int size;  // 链表大小
-    private Node dummyHead; //虚拟头节点
+    private Node dummyHead; //虚拟头节点（当要考虑头节点，并且需要找前一个节点的时候，我们可以使用虚拟节点）
     public LinkedList2(){
         dummyHead = new Node(null,null);
         size = 0;
