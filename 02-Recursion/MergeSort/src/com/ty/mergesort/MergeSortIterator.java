@@ -13,7 +13,7 @@ public class MergeSortIterator {
     }
 
     public static <E extends Comparable<E>> void sort(E[] arr) {
-        sort(arr,  arr.length - 1);
+        sort(arr,  arr.length);
     }
 
     public static <E extends Comparable<E>> void sort(E[] arr, int r) {
@@ -21,6 +21,7 @@ public class MergeSortIterator {
         for (int sz = 1; sz < r; sz +=sz) { //sz从1开始每次合并的区间递增sz个单位
             for (int i = 0; i + sz < r; i += sz + sz) {  //每次移动两个sz
                 if (arr[i + sz - 1].compareTo(arr[i + sz]) > 0) //如果区间已经有序则不用排，否则进行下面排序
+                    //注意+sz后对应的数组中索引应该-1
                     merge(arr, i, i + sz - 1, Math.min(r - 1, i + sz + sz - 1)); //最后一步合并时最右边的区间可能越界，如果越界选择最右边r的索引
             }
 
