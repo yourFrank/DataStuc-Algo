@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
- * QuickSort02优化：解决相同的数组会排序变成O(n平方)的复杂度
+ * QuickSort02优化：使用双路排序解决相同的数组会排序变成O(n平方)的复杂度
  *
  */
 public class QuickSort03 {
@@ -38,20 +38,22 @@ public class QuickSort03 {
     public static <E extends Comparable<E>> int partition(E[] arr, int l, int r,Random random) {
         int left=l+random.nextInt(r-l+1);
         swap(arr,left,l); //将这个元素作为第一个元素
-//        [l+1,i-1]<=v, [j+1,r]>=v
+//        [l+1,i-1]<=v, [j+1,r]>=v  //注意等于也要交换，这样才可以让相等的元素均匀分布到两侧（想象一下全是相同的数组，如果等于不作交换的话，首先循环的i会一直走下去，一直到j）
         int i=l+1;
         int j=r;
         while (true){
-            while (i<=j&&arr[i].compareTo(arr[l])<=0){  //一直找到一个i大于的v的索引
+            while (i<=j&&arr[i].compareTo(arr[l])<0){  //一直找到一个i大于等于的v的索引
                 i++;
             }
-            while (i<=j&&arr[j].compareTo(arr[l])>=0){// 一直找到一个j小于v的索引
+            while (i<=j&&arr[j].compareTo(arr[l])>0){// 一直找到一个j小于等于v的索引
                 j--;
             }
-            if (i>=j){ //如果i==j时说明这个元素就是v
+            if (i>=j){ //如果i==j时说明这个元素就是v，就不需要处理了
                 break;
             }
             swap(arr,i,j);  //将这两个索引交换
+            i++;  //交换后继续走
+            j--;
 
         }
         swap(arr,l,j);

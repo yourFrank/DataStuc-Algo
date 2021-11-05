@@ -8,48 +8,50 @@ import java.util.Random;
 
 /**
  * 三路快排：
+ * 时间复杂度:最坏复杂度O（n²)（每次都选到了最值，几乎不可能） 期望时间复杂度: O(nlogn)
  * 在双路快排的基础上我们完全可以找到和v这个元素相等的值,维护一个和v元素相等的区间，这个区间确定好位置后就不需要再排了
+ * 实际应用中可以用来解决select k 问题（第k小元素）
  */
 class QuickSort04 {
     private QuickSort04() {
     }
 
     public static <E extends Comparable<E>> void sort(E[] arr) {
-
         Random random = new Random();
         sort(arr, 0, arr.length - 1, random);
     }
 
-//    public static <E extends Comparable<E>> void sort(E[] arr, int l, int r, Random random) {
-//        if (l >= r) {
-//            return;
-//        }
-//        int left = l + random.nextInt(r - l + 1);
-//        swap(arr, left, l); //将这个元素作为第一个元素
-////        [l+1,i]<v,[i+1,k)=v [j,r]>v
-//        int i = l; //当i=l+1时为空区间,满足[l+1,i-1]<v
-//        int j = r + 1; //当j=r时,[r+1,r]为空,满足[j+1,r]>v
-//        int k = l + 1; //当k=i-1时满足[i,i-1] 为空区间,满足[i,k]=v
-//        while (k < j) {
-//            if (arr[k].compareTo(arr[l]) < 0) {
-//                i++;
-//                swap(arr, i, k);
-//                k++;
-//            } else if (arr[k].compareTo(arr[l]) > 0) {
-//                j--;   //此时k不能+1,因为交换后的当前元素还没有判断区间
-//                swap(arr, j, k);
-//
-//            } else {
-//                k++;
-//            }
-//
-//        }
-//        swap(arr, l, i); //此时区间[l+1,i]<v [i+1,k]=v,[j+1,r]>v
-//        sort(arr, l, i - 1, random); // 注意这里，大大减少了分治的区间，区间 [lt, gt - 1] 不必递归求解
-//        sort(arr, j, r, random);
-//    }
+    public static <E extends Comparable<E>> void sort(E[] arr, int l, int r, Random random) {
+        if (l >= r) {
+            return;
+        }
+        int left = l + random.nextInt(r - l + 1);
+        swap(arr, left, l); //将这个元素作为第一个元素
+//        [l+1,lt]<v,[lt+1,i-1]=v [gt,r]>v
+        int lt = l;
+        int gt = r + 1;
+        int i = l + 1;
+        while (i < gt) {
+            if (arr[i].compareTo(arr[l]) < 0) {
 
+                swap(arr, lt+1, i);
+                lt++;
+                i++;
+            } else if (arr[i].compareTo(arr[l]) > 0) {
+                gt--;   //此时k不能+1,因为交换后的当前元素还没有判断区间
+                swap(arr, gt, i);
 
+            } else {
+                i++;
+            }
+
+        }
+        swap(arr, l, lt);
+        sort(arr, l, lt - 1, random); // 注意这里，大大减少了分治的区间，区间 [lt, gt - 1] 不必递归求解
+        sort(arr, gt, r, random);
+    }
+
+    /* 不同的循环不变量实现
     public static <E extends Comparable<E>> void sort(E[] arr, int l, int r, Random random) {
         if (l >= r) {
             return;
@@ -67,8 +69,7 @@ class QuickSort04 {
                 k++;
             } else if (arr[k].compareTo(arr[l]) > 0) {
                 j--;   //此时k不能+1,因为交换后的当前元素还没有判断区间
-                swap(arr, j, k);
-
+                swap(arr, j+1, k);
             } else {
                 k++;
             }
@@ -77,6 +78,7 @@ class QuickSort04 {
         sort(arr, l, i - 2, random);
         sort(arr, j + 1, r, random);
     }
+*/
 
     private static <E extends Comparable<E>> void swap(E[] arr, int i, int j) {
         E temp = arr[i];
@@ -85,8 +87,8 @@ class QuickSort04 {
     }
 
     public static void main(String[] args) {
-        int n = 5;
-        Integer[] arr = {3,7,1,6,5};
+        int n = 100;
+        Integer[] arr = ArrayGenerator.generatorRandomArray(n,n);
         System.out.println(Arrays.toString(arr));
         sort(arr);
         System.out.println(Arrays.toString(arr));

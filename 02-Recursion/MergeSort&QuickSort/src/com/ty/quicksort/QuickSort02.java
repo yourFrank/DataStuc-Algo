@@ -7,7 +7,7 @@ import java.util.Random;
 
 
 /**
- * QuickSort01优化：解决有序数组会排序变成O(n平方)的复杂度
+ * QuickSort01单路快排小优化：解决有序数组会排序变成O(n平方)的复杂度
  */
 public class QuickSort02 {
     private QuickSort02() {
