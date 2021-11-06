@@ -10,18 +10,19 @@ public class InsertionSort2 {
     private InsertionSort2() {
     }
 
+    //循环不变量：保证从[0,i)上是有序的，从[i,n)是未排序的 ,此时i表示的是当前正在处理的元素
     public static <E extends Comparable<E>> void sort(E[] arr) {
         for (int i = 0; i < arr.length; i++) {
             E temp=arr[i]; //首先将当前元素保存下来，后移时会将当前元素进行覆盖
             int j;
-            for (j=i;j>0;j--){ //从i开始判断，可能i就是要插入的位置
+            for (j=i;j>0;j--){
                 if (temp.compareTo(arr[j-1])<0){ //前一个元素与元素i进行比较
                     arr[j]=arr[j-1]; //元素后移
                 }else {
                     break;
                 }
             }
-            arr[j]=temp; //结束后j-1比当前元素大了，因此j就是要插入的元素的位置
+            arr[j]=temp; //结束后j-1比当前元素大了，当前j位置空出，因此j就是要插入的元素的位置
 
         }
     }

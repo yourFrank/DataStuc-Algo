@@ -1,3 +1,5 @@
+package com.ty.stack.leetcode;
+
 import java.util.Arrays;
 
 //LeetCode 1381 设计支持增量操作的栈

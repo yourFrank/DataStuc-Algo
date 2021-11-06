@@ -1,7 +1,5 @@
 package com.ty.utils;
 
-import com.ty.selectionsort.SelectionSort2;
-import com.ty.insertionsort.InsertionSort;
 
 public class SortingHelper {
 
@@ -19,11 +17,11 @@ public class SortingHelper {
 
     public static <E extends Comparable<E>> void sortTest(String sortName, E[] arr) {
         long startTime = System.nanoTime(); //使用纳秒时间
-        if (sortName.equals("SelectionSort")) {
-            SelectionSort2.sort(arr);
-        }else  if (sortName.equals("InsertionSort")) {
-            InsertionSort.sort(arr);
-        }
+//        if (sortName.equals("SelectionSort")) {
+//            SelectionSort2.sort(arr);
+//        }else  if (sortName.equals("InsertionSort")) {
+//            InsertionSort.sort(arr);
+//        }
         long endTime = System.nanoTime();
         double time = (endTime - startTime) / 1000000000.0; //1s=1000毫秒=1000微秒=1000纳秒
 

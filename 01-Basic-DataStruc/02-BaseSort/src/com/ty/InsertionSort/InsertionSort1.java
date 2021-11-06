@@ -7,7 +7,7 @@ import com.ty.utils.SortingHelper;
 public class InsertionSort1 {
     private InsertionSort1(){};
 
-    //循环不变量：保证从[0,i)上是有序的，从[i,n)是未排序的
+    //循环不变量：保证从[0,i)上是有序的，从[i,n)是未排序的 ,此时i表示的是当前正在处理的元素
     public static <E extends Comparable<E>>void sort(E[] arr){
         for (int i=0;i< arr.length;i++){
             //将arr[i]插入到合适的位置

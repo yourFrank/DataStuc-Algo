@@ -27,7 +27,7 @@ public class QuickSort01 {
 
 
     public static <E extends Comparable<E>> int partition(E[] arr, int l, int r) {
-        //保证从[l+1,j]元素小于l   [j+1,i-1]元素大于l
+        //保证从[l+1,j]元素小于l   [j+1,i)元素大于l
         int left = l;
         int j = l; //j从l开始，[l+1,j]区间为空区间
         for (int i = l; i <= r; i++) {  //每次移动i,i指向当前元素

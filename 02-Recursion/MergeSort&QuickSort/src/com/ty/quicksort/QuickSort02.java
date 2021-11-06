@@ -40,7 +40,7 @@ public class QuickSort02 {
         // int left = l;
 //        int left=l+new Random().nextInt(r-l);//因为没有直接选择[l,r]区间元素的方法，因此通过选择[0,r-l]+l 的方式来获取 ,
 //        可以将random在外面new好传递进来，这样不用每次partition的时候都new，消耗内存时间
-        int left=l+random.nextInt(r-l);
+        int left=l+random.nextInt(r-l+1);
         swap(arr,left,l); //将这个元素作为第一个元素
         int j = l;
         for (int i = l; i <= r; i++) {

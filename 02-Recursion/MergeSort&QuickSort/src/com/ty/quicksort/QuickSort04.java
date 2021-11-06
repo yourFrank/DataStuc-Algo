@@ -27,20 +27,18 @@ class QuickSort04 {
         }
         int left = l + random.nextInt(r - l + 1);
         swap(arr, left, l); //将这个元素作为第一个元素
-//        [l+1,lt]<v,[lt+1,i-1]=v [gt,r]>v
+//        [l+1,lt]<v,[lt+1,i)=v [gt,r]>v
         int lt = l;
         int gt = r + 1;
-        int i = l + 1;
+        int i = lt + 1;
         while (i < gt) {
             if (arr[i].compareTo(arr[l]) < 0) {
-
                 swap(arr, lt+1, i);
                 lt++;
                 i++;
             } else if (arr[i].compareTo(arr[l]) > 0) {
                 gt--;   //此时k不能+1,因为交换后的当前元素还没有判断区间
                 swap(arr, gt, i);
-
             } else {
                 i++;
             }
