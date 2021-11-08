@@ -60,6 +60,7 @@ class BST<E extends Comparable<E>> {
     // 上面那种方式递归基本条件和下面递归判断重复，因此可以再往下递归一层
     private Node add(Node root, E val) {
         if (root == null) {
+            size++;
             return new Node(val);
         }
         //这里如果等于val的话就不添加了，也就是这里实现的是不包含重复的元素
@@ -97,6 +98,7 @@ class BST<E extends Comparable<E>> {
         if (root.left == null) {  //如果left为null的话，返回right作为新的根节点
             Node node = root.right;
             root.right = null;
+            size--;
             return node;
         }
         root.left = removeMin(root.left, val);
@@ -109,6 +111,8 @@ class BST<E extends Comparable<E>> {
         if (root.right == null) {
             Node node = root.left;
             root.left = null;
+            size--;
+
             return node;
         }
         root.right = removeMin(root.right, val);

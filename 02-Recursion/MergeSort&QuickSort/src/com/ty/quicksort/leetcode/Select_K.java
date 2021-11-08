@@ -14,6 +14,7 @@ public class Select_K {
 //        return Arrays.copyOf(arr,k);  使用Arrays.copyof方法， 第二个参数指的时数组的大小，此时传入k即可
 //    }
 
+    //递归实现selectK
     private int selectK(int[] arr, int l, int r, int k, Random rnd){
 
         int p = partition(arr, l, r, rnd);
@@ -22,6 +23,22 @@ public class Select_K {
 
         if(k < p) return selectK(arr, l, p - 1, k, rnd); //如果k<p，此时在左边进行递归
         return selectK(arr, p + 1, r, k, rnd);
+
+    }
+    //非递归实现selectK ,因为不用递归，所以不用传l和r了
+    private int selectK2(int[] arr ,int k, Random rnd){
+
+//        要在arr的[l,r]范围上找第k小的数字
+        int l=0,r=arr.length-1;
+        while (l<=r){ //只要l<=r才说明范围内有解
+            int p = partition(arr, l, r, rnd);
+
+            if(k == p) return arr[p];
+            if(k < p) r=p-1;  //当k小于p时，在左边继续查找，此时r=p-1
+            else l=p+1;  //当k>p时，在右边继续查找，此时l=p+1
+        }
+
+        throw new RuntimeException("No Solution"); //只要k合法就一定能返回解
 
     }
 
