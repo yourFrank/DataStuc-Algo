@@ -27,6 +27,9 @@ class BST<E extends Comparable<E>> {
         size = 0;
     }
 
+    public int size() {
+        return size;
+    }
 
     public boolean isEmpty() {
         return size == 0;
@@ -76,6 +79,38 @@ class BST<E extends Comparable<E>> {
         return contains(root, val);
     }
 
+    private E minimum() {
+        if (size == 0)
+            throw new IllegalArgumentException("BST is empty!");
+
+        return minimum(root).val;
+    }
+
+    //寻找最小元素
+    private Node minimum(Node root) {
+        if (root.left == null) {
+            return root;
+        }
+        return minimum(root.left);
+
+    }
+
+    // 寻找二分搜索树的最大元素
+    public E maximum() {
+        if (size == 0)
+            throw new IllegalArgumentException("BST is empty");
+
+        return maximum(root).val;
+    }
+
+    // 返回以node为根的二分搜索树的最大值所在的节点
+    private Node maximum(Node node) {
+        if (node.right == null)
+            return node;
+
+        return maximum(node.right);
+    }
+
     private boolean contains(Node root, E val) {
         if (root == null) {
             return false;
@@ -110,45 +145,84 @@ class BST<E extends Comparable<E>> {
     private Node removeMax(Node root, E val) {
         if (root.right == null) {
             Node node = root.left;
-            root.left = null;
+            root.left = null; //释放要删除元素的指向
             size--;
-
-            return node;
+            return node; //返回root.left作为新的根节点
         }
         root.right = removeMin(root.right, val);
         return root;
 
     }
 
-     //注意这里的前中后都是指的根节点相对左右的位置
+    // 从二分搜索树中删除元素为e的节点
+    public void remove(E e) {
+        root = remove(root, e);
+    }
+
+    //移除某一元素,并返回删除元素后的根节点
+    private Node remove(Node root, E target) {
+        if (root == null) { //有可能找不到该元素，因此为null
+            return null;
+        }
+        if (root.val.compareTo(target) < 0) {
+            root.right = remove(root.right, target);
+            return root;
+        } else if (root.val.compareTo(target) > 0) {
+            root.left = remove(root.left, target);
+            return root;
+        } else {  //root.val.compareTo(target) = 0
+            if (root.left == null) { //如果待删除元素的左节点为空的话，把右节点作为根元素返回。右为空则返回空就行
+                Node rightNode = root.right;
+                root.right = null; //释放要删除元素的指向
+                size--;
+                return rightNode;
+            }
+            // 待删除节点右子树为空的情况
+            if (root.right == null) { //如果待删除元素的右节点为空的话，把左节点作为根元素返回。左为空则返回空就行
+                Node leftNode = root.left;
+                root.left = null;
+                size--;
+                return leftNode;
+            }
+            //相等并且左右子树都不为空的情况下，找到右子树的最小（最左）节点作为当前删除元素的根节点,
+            Node successor = minimum(root.right);
+            successor.right = removeMin(root.right.val); //首先将右侧根元素的最小值移除，并且将移除后的新的根节点赋值给它的right
+            successor.left = root.left;
+            root.left = root.right = null; //去掉他的指向
+            return successor; // 返回新的根节点
+        }
+
+    }
+
+    //注意这里的前中后都是指的根节点相对左右的位置
     //递归的先序遍历
     public void preOrderR(Node root) {
         if (root == null) {
             return;
         }
-        System.out.print(root.val+" ");
+        System.out.print(root.val + " ");
         preOrderR(root.left);
         preOrderR(root.right);
     }
 
     //递归的中序遍历
-    public void midOrderR(Node root) {
-        if (root == null) {
-            return;
-        }
-        midOrderR(root.left);
-        System.out.print(root.val+" ");
-        midOrderR(root.right);
-    }
-
-    //递归的后序遍历
     public void inOrderR(Node root) {
         if (root == null) {
             return;
         }
         inOrderR(root.left);
+        System.out.print(root.val + " ");
         inOrderR(root.right);
-        System.out.print(root.val+" ");
+    }
+
+    //递归的后序遍历
+    public void postOrderR(Node root) {
+        if (root == null) {
+            return;
+        }
+        postOrderR(root.left);
+        postOrderR(root.right);
+        System.out.print(root.val + " ");
     }
 
     //树的层序遍历
@@ -158,7 +232,7 @@ class BST<E extends Comparable<E>> {
         deque.add(root);
         while (!deque.isEmpty()) {
             Node node = deque.remove();
-            System.out.print(node.val+" ");
+            System.out.print(node.val + " ");
             if (node.left != null) {
                 deque.add(node.left);
 
@@ -169,11 +243,12 @@ class BST<E extends Comparable<E>> {
 
         }
     }
+
     //非递归实现栈
-    public void midOrderNR() {
+    public void inOrderNR() {
         Node current = root;
         //把LinkedList作为栈使用
-        LinkedList<Node> s = new LinkedList<>();
+        LinkedList<Node> s = new LinkedList<Node>();
         while (current != null || !s.isEmpty()) {
             while (current != null) {  //每次都将左侧的全入栈
                 s.push(current);
@@ -194,7 +269,7 @@ class BST<E extends Comparable<E>> {
         stack.push(root);
         while (!stack.isEmpty()) {
             Node node = stack.pop();
-            System.out.print(node.val+" ");
+            System.out.print(node.val + " ");
             if (node.right != null) {
                 stack.push(node.right); //栈中先放入右边的节点，这样就会先访问左边的节点
 
@@ -205,9 +280,10 @@ class BST<E extends Comparable<E>> {
 
         }
     }
+
     //树的后序遍历，非递归实现（手动模拟栈）
     //后序遍历其实就是先序遍历调换左右顺序（先右再左）之后再倒序输出，因此我们可以将其先保存到栈中
-    public void inOrderNR(Node root) {
+    public void postOrderNR(Node root) {
         Deque<Node> stack = new LinkedList<>();
         Deque<Node> stack2 = new LinkedList<>();
 
@@ -224,9 +300,35 @@ class BST<E extends Comparable<E>> {
 
             }
         }
-        while (!stack2.isEmpty()){
-            System.out.print(stack2.pop().val+" ");
+        while (!stack2.isEmpty()) {
+            System.out.print(stack2.pop().val + " ");
         }
     }
 
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        generateBSTString(root, 0, res);
+        return res.toString();
+    }
+
+    // 生成以node为根节点，深度为depth的描述二叉树的字符串
+    private void generateBSTString(Node node, int depth, StringBuilder res) {
+
+        if (node == null) {
+            res.append(generateDepthString(depth) + "null\n");
+            return;
+        }
+
+        res.append(generateDepthString(depth) + node.val + "\n");
+        generateBSTString(node.left, depth + 1, res);
+        generateBSTString(node.right, depth + 1, res);
+    }
+
+    private String generateDepthString(int depth) {
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < depth; i++)
+            res.append("--");
+        return res.toString();
+    }
 }
