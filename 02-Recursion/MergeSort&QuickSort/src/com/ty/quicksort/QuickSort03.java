@@ -42,23 +42,25 @@ public class QuickSort03 {
         int i=l+1;
         int j=r;
         while (true){
-            while (i<=j&&arr[i].compareTo(arr[l])<0){  //一直找到一个i大于等于的v的索引
+            // 当i等于j的时候要继续判断是否移动，如果不移动无法判断该节点的大小，没法做最后的和第一个元素l交换
+            while (i<=j&&arr[i].compareTo(arr[l])<0){  //一直找到一个i大于等于的v的索引。
                 i++;
             }
             while (i<=j&&arr[j].compareTo(arr[l])>0){// 一直找到一个j小于等于v的索引
                 j--;
             }
-            if (i>=j){ //如果i==j时说明这个元素就是v，就不需要处理了
+            if (i>=j){ //如果i==j时说明这个元素就是v(左边找到i>=v，右边找到的i<=v，此时i=j说明就是v)，就不需要处理了
                 break;
             }
             swap(arr,i,j);  //将这两个索引交换
-            i++;  //交换后继续走
+            i++;  //交换后继续走,这里一定要继续移动。如果不移动会一直交换这两个节点死循环
             j--;
 
         }
         swap(arr,l,j);
         return j;
     }
+
 
     private static <E extends Comparable<E>> void swap(E[] arr, int i, int j) {
         E temp = arr[i];

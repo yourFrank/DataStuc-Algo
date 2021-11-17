@@ -1,3 +1,6 @@
+package leetcode;
+
+import java.util.Arrays;
 
 //寻找旋转数组中的最小元素
 //先找好单调区间，这道题单调区间是[min,r],从[min,r]肯定是单调递增的,[l,min]。因此我们可以判断mid和r的关系来取舍一半的区间
@@ -87,6 +90,7 @@ class Solution3{
 }
 
 
+//山峰数组
 class Solution4{
     public int peakIndexInMountainArray(int[] arr) {
         int l=0;
@@ -102,42 +106,4 @@ class Solution4{
         return l;
     }
 
-}
-
-class Solution5{
-
-    //    time = [1,2,3,3], m = 2
-//    T越大，m越小。 m和T成单调性
-    public int minTime(int[] time, int m) {
-        int l=0;
-        int r= Arrays.stream(time).sum();
-        while (l<r){
-            int mid=l+(r-l)/2;
-            if (spentTime(mid,time,m)){
-                r=mid;
-            }else {
-                l=mid+1;
-            }
-
-        }
-        return l;
-    }
-    //[1,2,3,3]  2
-    private boolean spentTime(int T, int[] time,int m) {
-        int len=time.length-m;
-        int sum=0;
-        int left=Math.max(0,len-m);
-        for (int i=len-1;i>=left;i--){
-            sum+= time[i];
-        }
-        return T>=sum;
-
-    }
-
-    public static void main(String[] args) {
-        Solution5 solution=new Solution5();
-        int time[]={999,999,999,};
-
-        solution.minTime(time,2);
-    }
 }

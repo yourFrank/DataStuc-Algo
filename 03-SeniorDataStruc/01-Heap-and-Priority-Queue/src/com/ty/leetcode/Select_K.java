@@ -1,6 +1,7 @@
-package com.ty.quicksort.leetcode;
+package com.ty.leetcode;
 
 import java.util.Random;
+
 /**
  * 快速排序可以解决select K问题，在partition的过程中，我们可以确定第k个元素所在的位置，递归过程每次判断后处理一半的数即可
  * 时间复杂度T(n)= n+ n/2+n/4 。。。1 = O（2n）= O（n） 等比数列 ,空间复杂度T(n)=O(1)  原地操作
